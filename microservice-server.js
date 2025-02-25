@@ -4,7 +4,6 @@ const port = 3000;
 
 // Mock data for motivational quotes
 const quotes = {
-    random: "Keep pushing forward and never give up!",
     productivity: "The only way to achieve the impossible is to believe it is possible.",
     wellness: "Take care of your body; it's the only place you have to live.",
     success: "Success is the sum of small efforts, repeated day in and day out.",
@@ -17,11 +16,21 @@ app.use((req, res, next) => {
     next();
 });
 
-// Endpoint to fetch a random motivational message
+// Endpoint to fetch a random quote from any category
 app.get('/quote/random', (req, res) => {
-    console.log(`Responding with random quote: "${quotes.random}"`);
-    res.json({ message: quotes.random });
+    // Get an array of keys from the quotes object (categories)
+    const categories = Object.keys(quotes);
+    
+    // Select a random category
+    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    
+    // Fetch the quote from the selected category
+    const randomQuote = quotes[randomCategory];
+    
+    console.log(`Responding with random quote from category "${randomCategory}": "${randomQuote}"`);
+    res.json({ message: randomQuote });
 });
+
 
 // Endpoint to fetch a motivational message by category
 app.get('/quote', (req, res) => {
