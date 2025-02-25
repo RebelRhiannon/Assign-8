@@ -1,47 +1,42 @@
-// Import dependencies
 const express = require('express');
 const app = express();
 const port = 3000;
 
-// Sample motivational messages
-const quotes = [
-    { category: "Productivity", message: "Success is not final, failure is not fatal: it is the courage to continue that counts." },
-    { category: "Wellness", message: "Take care of your body. It's the only place you have to live." },
-    { category: "Success", message: "The only way to do great work is to love what you do." },
-    { category: "General", message: "Believe you can and you're halfway there." },
-    { category: "Wellness", message: "You are stronger than you think." },
-    { category: "Productivity", message: "Don’t watch the clock; do what it does. Keep going." }
-];
+// Mock data for motivational quotes
+const quotes = {
+    random: "Keep pushing forward and never give up!",
+    productivity: "The only way to achieve the impossible is to believe it is possible.",
+    wellness: "Take care of your body; it's the only place you have to live.",
+    success: "Success is the sum of small efforts, repeated day in and day out.",
+};
 
-// Middleware to handle JSON requests
-app.use(express.json());
-
-// Endpoint to get a motivational message (can filter by category)
-app.get('/quote', (req, res) => {
-    const category = req.query.category;
-
-    // If a category is provided, filter quotes by category
-    if (category) {
-        const filteredQuotes = quotes.filter(q => q.category.toLowerCase() === category.toLowerCase());
-        if (filteredQuotes.length > 0) {
-            return res.json({ message: filteredQuotes[Math.floor(Math.random() * filteredQuotes.length)].message });
-        } else {
-            return res.status(404).json({ error: "No quotes found for this category." });
-        }
-    }
-
-    // If no category, return a random quote
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    res.json({ message: randomQuote.message });
+// Middleware to log incoming requests
+app.use((req, res, next) => {
+    const requestTime = new Date().toISOString();
+    console.log(`[${requestTime}] Incoming request: ${req.method} ${req.originalUrl}`);
+    next();
 });
 
-// Endpoint to get a random motivational message
+// Endpoint to fetch a random motivational message
 app.get('/quote/random', (req, res) => {
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    res.json({ message: randomQuote.message });
+    console.log(`Responding with random quote: "${quotes.random}"`);
+    res.json({ message: quotes.random });
+});
+
+// Endpoint to fetch a motivational message by category
+app.get('/quote', (req, res) => {
+    const category = req.query.category;
+    if (category && quotes[category]) {
+        console.log(`Responding with ${category} quote: "${quotes[category]}"`);
+        res.json({ message: quotes[category] });
+    } else {
+        const errorMessage = `Invalid category: ${category}`;
+        console.log(errorMessage);
+        res.status(400).json({ error: errorMessage });
+    }
 });
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Motivational message microservice is running on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });

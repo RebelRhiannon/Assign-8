@@ -1,3 +1,7 @@
 In terminal run node microservice-server.js
 
 In seperate terminal run node test-program.js
+
+Terminal that runs the microservice shows the logging with the requests
+
+Terminal running test program shows test category and message 
