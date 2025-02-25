@@ -1,5 +1,3 @@
-In CMD run node microservice-server.js
-Go to http://localhost:3000/quote/random for random quote
+In terminal run node microservice-server.js
 
-Example for filtered quote "productivity"
-http://localhost:3000/quote?category=productivity
+In seperate terminal run node test-program.js
