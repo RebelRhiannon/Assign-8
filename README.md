@@ -4,6 +4,8 @@ This is a simple motivational message microservice that provides random and cate
 
 Communication Contract
 
+Option 1:
+
 Base URL: http://localhost:3000
 
 Endpoints:
@@ -14,7 +16,7 @@ Description: Fetches a random motivational quote.
 Response: Returns a random motivational message.
 
 Example Request:
-curl -X GET http://localhost:3000/quote/random
+In browser go to: http://localhost:3000/quote/random
 
 Example Response:
 {
@@ -28,7 +30,7 @@ Query Parameters:
 category: The category of the motivational message. Available categories: productivity, wellness, success.
 
 Example Request:
-curl -X GET "http://localhost:3000/quote?category=productivity"
+In browser go to: http://localhost:3000/quote?category=productivity
 
 Example Response:
 {
@@ -39,6 +41,8 @@ Error Response (Invalid Category):
 {
   "error": "Invalid category"
 }
+
+Option 2:
 
 How to Request Data from the Microservice
 
